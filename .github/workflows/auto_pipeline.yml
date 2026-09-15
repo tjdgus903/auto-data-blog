@@ -32,3 +32,8 @@ jobs:
           git add posts/
           git commit -m "Automated daily post generation [skip ci]"
           git push
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
