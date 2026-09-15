@@ -1,0 +1,35 @@
+---
+// src/pages/posts/ 안의 모든 마크다운 파일을 자동으로 읽어옴
+const postFiles = import.meta.glob('./posts/*.md', { eager: true });
+const posts = Object.values(postFiles);
+---
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>실시간 데이터 트렌드 인사이트 블로그</title>
+    <style>
+      body { font-family: 'Apple SD Gothic Neo', sans-serif; max-width: 800px; margin: 60px auto; padding: 0 20px; color: #333; line-height: 1.6; }
+      h1 { font-size: 28px; border-bottom: 2px solid #eaeaea; padding-bottom: 15px; }
+      .post-card { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; }
+      .post-card a { font-size: 20px; font-weight: bold; color: #0066cc; text-decoration: none; }
+      .post-card a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <h1>📊 AI 실시간 데이터 트렌드 리포트</h1>
+    <p>구글 핫 토픽을 기반으로 자동 생성되는 실시간 인사이트 블로그입니다.</p>
+    <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
+
+    <section>
+      {posts.length === 0 ? (
+        <p>아직 생성된 포스트가 없습니다. 잠시 후 첫 번째 리포트가 발행됩니다!</p>
+      ) : (
+        posts.map((post: any) => (
+          <div class="post-card">
+            <a href={post.url}>{post.file.split('/').pop().replace('.md', '')} 포스트 읽기</a>
+          </div>
+        ))
+      )}
+    </section>
+  </body>
+</html>

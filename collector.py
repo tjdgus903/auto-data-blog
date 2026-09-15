@@ -47,11 +47,11 @@ def generate_blog_post(keywords):
 
 def save_markdown_file(content):
     """
-    생성된 마크다운 파일을 posts/ 폴더 아래에 날짜별로 자동 저장
+    생성된 마크다운 파일을 src/pages/posts/ 폴더 아래에 자동 저장하여 웹페이지로 즉시 빌드되도록 함
     """
-    os.makedirs("posts", exist_ok=True)
+    os.makedirs("src/pages/posts", exist_ok=True)
     date_str = datetime.now().strftime("%Y-%m-%d")
-    filename = f"posts/{date_str}-google-trend-insight.md"
+    filename = f"src/pages/posts/{date_str}-google-trend-insight.md"
     
     with open(filename, "w", encoding="utf-8") as f:
         f.write(content)
