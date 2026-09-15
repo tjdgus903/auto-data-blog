@@ -1,0 +1,34 @@
+name: Auto Data Blog Pipeline
+
+on:
+  schedule:
+    - cron: '0 22 * * *' # 매일 밤 10시(UTC 기준) 자동 실행
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run collector script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python collector.py
+
+      - name: Commit and push generated post
+        run: |
+          git config --global user.name "Auto Blog Bot"
+          git config --global user.email "bot@github.com"
+          git add posts/
+          git commit -m "Automated daily post generation [skip ci]"
+          git push
